@@ -5,6 +5,9 @@ namespace Cricut.Orders.Api.Mappings
 {
     public static class ToViewModelMappings
     {
+        public static OrderViewModel[] ToViewModel(this Order[] domainModels) =>
+            domainModels.Select(vm => vm.ToViewModel()).ToArray();
+
         public static OrderViewModel ToViewModel(this Order domainModel)
         {
             return new OrderViewModel

@@ -54,5 +54,21 @@ namespace Cricut.Orders.Integration.Tests
             return new AutoFaker<NewOrderViewModel>()
                 .RuleFor(x => x.OrderItems, orderItems);
         }
+
+        [DataTestMethod]
+        [DataRow(12345, 5)]
+        [DataRow(54321, 5)]
+        public async Task GetAllOrdersForCustomer(int customerId, int expectedNumberOfOrders)
+        {
+            var client = OrdersApiTestClientFactory.CreateTestClient();
+
+            var request = new HttpRequestMessage(HttpMethod.Get, $"v1/orders/customer/{customerId}");
+
+            var response = await client.SendAsync(request);
+            response.IsSuccessStatusCode.Should().BeTrue();
+            var customerOrders = await response.Content.ReadFromJsonAsync<OrderViewModel[]>();
+
+            customerOrders.Length.Should().Be(expectedNumberOfOrders);
+        }
     }
 }
