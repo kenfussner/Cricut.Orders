@@ -68,7 +68,7 @@ namespace Cricut.Orders.Integration.Tests
             response.IsSuccessStatusCode.Should().BeTrue();
             var customerOrders = await response.Content.ReadFromJsonAsync<OrderViewModel[]>();
 
-            customerOrders.Length.Should().Be(expectedNumberOfOrders);
+            customerOrders?.Length.Should().Be(expectedNumberOfOrders);
         }
     }
 }
